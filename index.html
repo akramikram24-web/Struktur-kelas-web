@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelas GitHub - Kursus Pemrograman</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .hero {
+            background: linear-gradient(135deg, #238636, #58a6ff);
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        .repo-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+        .repo-card:hover {
+            transform: translateY(-5px);
+        }
+        .footer {
+            background-color: #161b22;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <h1>Kelas GitHub: Belajar Pemrograman Bersama</h1>
+            <p>Kelas interaktif untuk mahasiswa dan pengembang. Gunakan GitHub untuk kolaborasi dan proyek nyata.</p>
+            <a href="https://github.com" class="btn btn-light btn-lg">Kunjungi GitHub</a>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <h2>Repositori Kelas</h2>
+        <p>Berikut adalah repositori utama untuk kelas ini. Data diambil langsung dari GitHub.</p>
+        <div id="repos" class="row">
+            <!-- Repositori akan dimuat di sini via JavaScript -->
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 Kelas GitHub. Dibuat dengan ❤️ menggunakan Bootstrap dan GitHub API.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Ganti 'username' dengan username GitHub Anda (misalnya 'octocat')
+        const username = 'octocat'; // Contoh: ganti dengan username GitHub kelas Anda
+        const apiUrl = `https://api.github.com/users/${username}/repos`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const reposContainer = document.getElementById('repos');
+                data.slice(0, 6).forEach(repo => { // Ambil 6 repo teratas
+                    const repoCard = `
+                        <div class="col-md-4">
+                            <div class="repo-card">
+                                <h5>${repo.name}</h5>
+                                <p>${repo.description || 'Deskripsi tidak tersedia.'}</p>
+                                <a href="${repo.html_url}" class="btn btn-outline-primary" target="_blank">Lihat di GitHub</a>
+                            </div>
+                        </div>
+                    `;
+                    reposContainer.innerHTML += repoCard;
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching repos:', error);
+                document.getElementById('repos').innerHTML = '<p>Gagal memuat repositori. Periksa koneksi internet atau username GitHub.</p>';
+            });
+    </script>
+</body>
+</html>
